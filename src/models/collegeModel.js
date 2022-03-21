@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const ObjectId = mongoose.Schema.Types.ObjectId
 const collegeSchema = new mongoose.Schema( {
     name: {
         type : String ,
@@ -11,12 +11,21 @@ const collegeSchema = new mongoose.Schema( {
         type: String,
         required : "full name is Required"
     },
-    logoLink : {
+    // logoLink : { 
+    //     required:"logo link is required "
 
-    },
+    //},
+
     isDeleted : {
         type : Boolean ,
         default : false
+    },
+
+
+    internId:{type : ObjectId ,
+        ref : "internDetails" ,
+        required : "intern id is must " 
+
     }
  } , { timestamps: true });
 
