@@ -3,21 +3,14 @@
   "version": "1.0.0",
   "description": "repository for backend cohort - thorium",
   "main": "index.js",
-  
   "scripts": {
-
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon src/index.js"
   },
   "repository": {
-    
     "type": "git",
     "url": "chandan gupta and shritam mohapatra "
   },
-
-
-
-
   "dependencies": {
     "express": "^4.17.3",
     "it": "^1.1.1",
