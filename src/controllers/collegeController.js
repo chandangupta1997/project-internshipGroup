@@ -5,16 +5,17 @@ const ObjectId = mongoose.Types.ObjectId
 
 const isValid =function(value){
     if(typeof value ==='undefined'|| value===null) return false 
-    if(typeof value==='string'&&value.trim.length===0) return false 
+    if(typeof value ==='String' && value.trim().length===0) return false 
+    return true;
 
 
 
 }
 
 
-
+// This is not required i think bcz we dont have to validate any id here in college controller
 const isValidObjectId=function(objectId){
-    return mongoose.Types.ObjectId.isvalid(objectId)
+    return mongoose.Types.ObjectId.isValid(objectId)
     
     
     
@@ -58,8 +59,9 @@ const createCollege = async function(req,res){
 
 
     //validation Starts
-    if(!isValid(name)){res.status(400).send("College nick name  Is ReQuired ")
-           return }
+    console.log(name)
+    if(!isValid(name)){return res.status(400).send("College nick name  Is ReQuired ")
+            }
     if(!isValid(fullName)){res.status(400).send("College Full name is REquired ")
            return }
 
