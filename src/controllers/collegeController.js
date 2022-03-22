@@ -40,7 +40,7 @@ const getCollege =async function(req,res){
 
     // //let collegeId =collegeDetails.name //or full name 
     // //phir 
-    let collegeInterns= await internModel.findOne({_collegeid:collegeId})
+    let collegeInterns= await internModel.find({_collegeid:collegeId})
     console.log(collegeInterns)
 
 
