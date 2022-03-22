@@ -27,9 +27,9 @@ const getCollege =async function(req,res){
 
     let collegeName = req.query.name
     if(!collegeName) res.status().send("please senter")
-    let collegeDetails=await collegeModel.find({name:collegeName})
+    let collegeDetails=await collegeModel.findOne({name:collegeName})
 
-    // yha empty array aa rha hai isliye 
+    // yha empty array aa rha hai isliye  phle find tha sirf 
     if (!Object.keys(collegeDetails).length > 0) return res.send({ error: "there is no such college " })
 
     if(!collegeDetails)return res.status(404).send({status:"false",msg:"no such College found check college id "})
@@ -40,8 +40,15 @@ const getCollege =async function(req,res){
 
     // //let collegeId =collegeDetails.name //or full name 
     // //phir 
-    let collegeInterns= await internModel.find({_collegeid:collegeId})
-    res.send({status:"true",collegeInterns})
+    let collegeInterns= await internModel.findOne({_collegeid:collegeId})
+    console.log(collegeInterns)
+
+
+
+    //let collegeInterns= collegeModel.find({name:collegeName}).populate("internDetails")
+    //console.log("line49",collegeInterns)
+
+    //res.send(collegeDetails)
 
 
 
