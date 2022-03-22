@@ -15,6 +15,8 @@ router.post("/createCollege", collegeController.createCollege)
 //  create Intern
 router.post("/createIntern", internController.createIntern)
 
+router.get("/getCollege",collegeController.getCollege)
+
 
 
 

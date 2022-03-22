@@ -30,14 +30,14 @@ const createIntern = async function (req, res) {
 }
 
 
-const getInternDetails = async function(req,res){
-    try{
-        let filters = req.query
-    }
-    catch(err){
-        res.status(500).send({status:false,msg:"Server Error",error:err.message});
-    }
-}
+// const getInternDetails = async function(req,res){
+//     try{
+//         let filters = req.query
+//     }
+//     catch(err){
+//         res.status(500).send({status:false,msg:"Server Error",error:err.message});
+//     }
+// }
 
 
 
@@ -50,6 +50,6 @@ const getInternDetails = async function(req,res){
 
 module.exports.createIntern = createIntern
 
-module.exports.getInternDetails = getInternDetails
+//module.exports.getInternDetails = getInternDetails
 
 

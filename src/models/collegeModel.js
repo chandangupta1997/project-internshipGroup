@@ -12,9 +12,16 @@ const collegeSchema = new mongoose.Schema( {
         required : "full name is Required"
     },
     // logoLink : { 
-    //     required:"logo link is required "
+    //     required:"logo link is required ",
+    //     validate: {
+    //         validator: function (URL) {
+    //             return /?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-]*)?\??(?:[-\+=&;%@.\w]*)#?(?:[\w]*))?)/.test(URL)
+    //         }, message: 'Please fill a valid email address', isAsync: false
+    //     }
 
-    //},
+        
+
+    // },
 
     isDeleted : {
         type : Boolean ,
@@ -22,11 +29,11 @@ const collegeSchema = new mongoose.Schema( {
     },
 
 
-    internId:{type : ObjectId ,
-        ref : "internDetails" ,
-        required : "intern id is must " 
+    // internId:{type : ObjectId ,
+    //     ref : "internDetails" ,
+    //     required : "intern id is must " 
 
-    }
+    // }
  } , { timestamps: true });
 
 module.exports = mongoose.model('collegeDetails', collegeSchema) 
