@@ -1,5 +1,5 @@
 const collegeModel = require("../models/collegeModel")
-
+const internModel =require("../models/internModel")
 const createCollege = async function(req,res){
     try{
         const data = req.body
@@ -30,11 +30,21 @@ const getCollege =async function(req,res){
     let collegeDetails=await collegeModel.find({name:collegeName})
 
     // yha empty array aa rha hai isliye 
-    if (!Object.keys(collegeDetails).length > 0) return res.send({ error: "Please enter data" })
+    if (!Object.keys(collegeDetails).length > 0) return res.send({ error: "there is no such college " })
 
     if(!collegeDetails)return res.status(404).send({status:"false",msg:"no such College found check college id "})
 
     res.status(200).send({status:"true",msg:collegeDetails})
+    let collegeId = collegeDetails.id  //.select({_id:1})
+    console.log(collegeId)
+
+    // //let collegeId =collegeDetails.name //or full name 
+    // //phir 
+    let collegeInterns= await internModel.find({_collegeid:collegeId})
+    res.send({status:"true",collegeInterns})
+
+
+
 
 
     // let collegeInterns = req.query.interId
