@@ -34,14 +34,17 @@ const getCollege =async function(req,res){
 
     if(!collegeDetails)return res.status(404).send({status:"false",msg:"no such College found check college id "})
 
-    res.status(200).send({status:"true",msg:collegeDetails})
+    // res.status(200).send({status:"true",msg:collegeDetails})
+    console.log(collegeDetails)
     let collegeId = collegeDetails.id  //.select({_id:1})
     console.log(collegeId)
 
     // //let collegeId =collegeDetails.name //or full name 
     // //phir 
-    let collegeInterns= await internModel.findOne({_collegeid:collegeId})
+    let collegeInterns= await internModel.find({_collegeid:collegeId})
     console.log(collegeInterns)
+
+    res.status(200).send({status:"true",msg:collegeInterns})
 
 
 
