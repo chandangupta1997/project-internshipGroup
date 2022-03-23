@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Schema.Types.ObjectId
+
+const url = require('mongoose-type-url')
+
 const collegeSchema = new mongoose.Schema( {
     name: {
         type : String ,
@@ -11,10 +14,12 @@ const collegeSchema = new mongoose.Schema( {
         type: String,
         required : "full name is Required"
     },
-    // logoLink : { 
-    //     required:"logo link is required ",
-    //     default:"this "
-    // },
+    logoLink :{
+        type : url ,
+        required : "Please enter logo Link" ,
+        trim : true ,
+        unique : true ,
+        lowercase : true },
 
   
 
@@ -24,11 +29,7 @@ const collegeSchema = new mongoose.Schema( {
     },
 
 
-    // internId:{type : ObjectId ,
-    //     ref : "internDetails" ,
-    //     required : "intern id is must " 
-
-    // }
+    
  } , { timestamps: true });
 
 module.exports = mongoose.model('collegeDetails', collegeSchema) 

@@ -78,8 +78,8 @@ const createCollege = async function(req,res){
     }
 
     //Exact params using  rest operators 
-    const{name,fullName}=requestBody; // desrructuring request body in variables and then accesing it for validation 
-
+    //const{name,fullName}=requestBody; // desrructuring request body in variables and then accesing it for validation 
+    const{name,fullName,logoLink}=requestBody;
 
     //validation Starts
     if(!isValid(name)){res.status(400).send("College nick name  Is ReQuired ")
@@ -87,13 +87,43 @@ const createCollege = async function(req,res){
     if(!isValid(fullName)){res.status(400).send("College Full name is REquired ")
            return }
 
+    if(!isValid(logoLink)){res.status(400).send(" Logo Link  is REquired ")
+           return }
+
+
+    const isNameAlreadyExist = await collegeModel.findOne({name});
+
+           // if email id is matched that means emai id is already exist so we have to return false
+           if(isNameAlreadyExist){
+              return res.status(400).send({status:false,msg:`${name} name already exist`})
+           }
+
+
+    const isfullNameAlreadyExist = await collegeModel.findOne({fullName});
+
+           // if email id is matched that means emai id is already exist so we have to return false
+           if(isfullNameAlreadyExist){
+              return res.status(400).send({status:false,msg:`${fullName} fullName already exist`})
+           }
+    
+
+
+    
+    
+
+    
+
+
+
+    
+
     // if( !isValid(data.logoLink) )   
     // return res.status(400).send({ status : false, message: 'please provide logoLink'})
 
 
     //validation ends 
 
-    const collegeData={name,fullName} // accessing it for blog Creation
+    const collegeData={name,fullName,logoLink} // accessing it for blog Creation
 
     const newCollege= await collegeModel.create(collegeData)
     res.status(200).send({status:true,message:"New College Created Successfully ",data:newCollege})
@@ -102,7 +132,7 @@ const createCollege = async function(req,res){
 
 
     catch(error){
-        res.status(500).send({status:"false",msg:error.message})
+        res.status(500).send({status:"false",catchmsg:error.message})
     }
 
 
@@ -200,11 +230,11 @@ const getCollege = async function ( req ,res ) {
         let colleges = await collegeModel.findById(collegeId).select({ name:1 , fullName:1 , logoLink:1 , _id:0})
         console.log(colleges)
 
-        // retrieve : interested interns details
+        // retrieve : interested interns details  
         const intern = await internModel.find({ collegeId : collegeId })
         console.log(intern)
 
-        // formatting : require output
+        // formatting : require output  isliye hi college variable bnaya tha 
         let obj = {name : colleges.name ,
                    fullname : colleges.fullName ,
                    logoLink : colleges.logoLink , 
