@@ -196,7 +196,7 @@ const getCollege = async function ( req ,res ) {
         console.log(collegeId)
         if( !Object.keys(collegeId).length > 0)  return res.status(404).send({ status : false, message: 'No data found'})
 
-        // retrieve : college details
+        // retrieve : college details  //phle mera ye college details ke naam se tha 
         let colleges = await collegeModel.findById(collegeId).select({ name:1 , fullName:1 , logoLink:1 , _id:0})
         console.log(colleges)
 

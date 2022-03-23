@@ -11,9 +11,10 @@ const collegeSchema = new mongoose.Schema( {
         type: String,
         required : "full name is Required"
     },
-    logoLink : { 
-        required:"logo link is required ",
-    },
+    // logoLink : { 
+    //     required:"logo link is required ",
+    //     default:"this "
+    // },
 
   
 
