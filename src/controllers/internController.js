@@ -81,7 +81,7 @@ const createIntern = async function (req, res) {
             return res.status(400).send({status:false,msg:"collegeId is required"})
         }
 
-        // I think this is not required here
+        // I think this is not required here  // it is required buddy 
         if(!isValidObjectId(collegeId)){
             return res.status(400).send({status:false,msg:`${collegeId} is not a valid college Id`})
         }
@@ -102,14 +102,14 @@ const createIntern = async function (req, res) {
 
         // if (!Object.keys(data).length > 0) return res.send({status:false,error: "Please enter data" })
         // chandan plz take a look at below codes and let me know do we need to keep these things or not
-        const findCollege = await collegeModel.find({ _id: id })
+        const findCollege = await collegeModel.find({ _id: collegeId})  // college id ki jgh id tha corrected 
 
         if (!findCollege.length > 0) return res.status(400).send({status:false,msg:"error : Please enter valid collegeId"})
         // till here
 
 
         const createdIntern = await internModel.create(internData)
-        res.status(201).send({ Blog: createdIntern })
+        res.status(201).send({ status:"true",msg:"interne registered",Intern: createdIntern })
     }
     catch (err) {
         console.log(err)

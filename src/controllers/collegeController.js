@@ -5,17 +5,16 @@ const ObjectId = mongoose.Types.ObjectId
 
 const isValid =function(value){
     if(typeof value ==='undefined'|| value===null) return false 
-    if(typeof value ==='String' && value.trim().length===0) return false 
-    return true;
+    if(typeof value==='string'&&value.trim.length===0) return false 
 
 
 
 }
 
 
-// This is not required i think bcz we dont have to validate any id here in college controller
+
 const isValidObjectId=function(objectId){
-    return mongoose.Types.ObjectId.isValid(objectId)
+    return mongoose.Types.ObjectId.isvalid(objectId)
     
     
     
@@ -59,9 +58,8 @@ const createCollege = async function(req,res){
 
 
     //validation Starts
-    console.log(name)
-    if(!isValid(name)){return res.status(400).send("College nick name  Is ReQuired ")
-            }
+    if(!isValid(name)){res.status(400).send("College nick name  Is ReQuired ")
+           return }
     if(!isValid(fullName)){res.status(400).send("College Full name is REquired ")
            return }
 
@@ -86,6 +84,31 @@ const createCollege = async function(req,res){
 }
 
 
+const getCollege =async function(req,res){
+
+    let data =req.query
+    if(!data)return res.send("please enter data in query")
+
+    let collegeName = req.query.name
+    if(!collegeName) res.status().send("please senter")
+    let collegeDetails=await collegeModel.findOne({name:collegeName})
+
+    // yha empty array aa rha hai isliye  phle find tha sirf  
+    if (!Object.keys(collegeDetails).length > 0) return res.send({ error: "there is no such college " })
+
+    if(!collegeDetails)return res.status(404).send({status:"false",msg:"no such College found check college id "})
+
+    res.status(200).send({status:"true",msg:collegeDetails})
+    let collegeId = collegeDetails.id  //.select({_id:1})
+    console.log(collegeId)
+
+    // //let collegeId =collegeDetails.name //or full name 
+    // //phir 
+    let collegeInterns= await internModel.find({_collegeid:collegeId})
+    console.log(collegeInterns)
+
+}
+
 
 
 
@@ -99,3 +122,4 @@ const createCollege = async function(req,res){
 
 
 module.exports.createCollege = createCollege
+module.exports.getCollege=getCollege
