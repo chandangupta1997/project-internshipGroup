@@ -5,7 +5,9 @@ const ObjectId = mongoose.Types.ObjectId
 
 const isValid =function(value){
     if(typeof value ==='undefined'|| value===null) return false 
-    if(typeof value==='string'&&value.trim.length===0) return false 
+    if(typeof value==='string' && value.trim().length===0) return false 
+    return true
+   
 
 
 
@@ -109,74 +111,114 @@ const createCollege = async function(req,res){
 }
 
 
-const getCollege =async function(req,res){
+// const getCollege =async function(req,res){
 
 
 
-    try{
+//     try{
 
         
 
-    let data =req.query
-    if(!isValidRequestBody(data)){
-        res.status(400).send({status:false,msg:"Invalid request parameters Please Provide query to search "})
-        return
+//     let data =req.query
+//     if(!isValidRequestBody(data)){
+//         res.status(400).send({status:false,msg:"Invalid request parameters Please Provide query to search "})
+//         return
 
-    }
+//     }
     
 
-    let collegeName = req.query.name
-    //if( !isValid(collegeName) )    return res.status(400).send({ status : false, message: 'please provide college Name'})
-    //if(!collegeName) res.status().send("please senter")
+//     let collegeName = req.query.name
+//     //if( !isValid(collegeName) )    return res.status(400).send({ status : false, message: 'please provide college Name'})
+//     //if(!collegeName) res.status().send("please senter")
 
 
-    let collegeDetails=await collegeModel.findOne({name:collegeName})
+//     let collegeDetails=await collegeModel.findOne({name:collegeName})
+//     console.log(collegeDetails)
 
-    // yha empty array aa rha hai isliye  phle find tha sirf  
-    if (!Object.keys(collegeDetails).length > 0) return res.send({ error: "there is no such college " })
+//     // yha empty array aa rha hai isliye  phle find tha sirf  
+//     if (!Object.keys(collegeDetails).length > 0) return res.send({ error: "there is no such college " })
 
-    if(!collegeDetails)return res.status(404).send({status:"false",msg:"no such College found check college id "})
+//     if(!collegeDetails)return res.status(404).send({status:"false",msg:"no such College found check college id "})
 
-   // res.status(200).send({status:"true",msg:collegeDetails})
-
-
-    const collegeId = await collegeModel.find({ name : collegeName , isDeleted : false }).select({ _id : 1})
-    if( !Object.keys(collegeId).length > 0)  return res.status(404).send({ status : false, message: 'No data found'})
-
-    // let collegeId = collegeDetails.id  //.select({_id:1})
-    // console.log(collegeId)
-
-    // //let collegeId =collegeDetails.name //or full name 
-    // //phir 
+//    // res.status(200).send({status:"true",msg:collegeDetails})
 
 
+//     // const collegeId = await collegeModel.find({ name : collegeName , isDeleted : false }).select({ _id : 1})
+//     // if( !Object.keys(collegeId).length > 0)  return res.status(404).send({ status : false, message: 'No data found'})
+
+//     let collegeId = collegeDetails.id  //.select({_id:1})
+//     console.log(collegeId)
+
+   
 
 
-    let colleges = await collegeModel.findById(collegeId).select({ name:1 , fullname:1 , logoLink:1 , _id:0})
+
+//    // let colleges = await collegeModel.findById(collegeId).select({ name:1 , fullname:1 , logoLink:1 , _id:0})
 
 
-    let collegeInterns= await internModel.find({_collegeid:collegeId})
-    console.log(collegeInterns)
+//     let collegeInterns= await internModel.find({_collegeid:collegeId})
+//     console.log(collegeInterns)
 
-    let obj = {name : colleges.name ,
-        fullname : colleges.fullname ,
-        logoLink : colleges.logoLink , 
-        interests : collegeInterns}
+// //     let obj = {name : colleges.name ,
+// //         fullname : colleges.fullname ,
+// //         logoLink : colleges.logoLink , 
+// //         interests : collegeInterns}
 
-//  send : response
-      res.status(200).send({status : true ,data : obj })
+// // //  send : response
+// //       res.status(200).send({status : true ,data : obj })
 
 
+//     }
+
+
+
+//     catch(error){
+
+//         res.status(500).send(error.message)
+
+//     }
+
+// }
+
+const getCollege = async function ( req ,res ) {
+    try {
+        const colName = req.query.collegeName
+
+        // check : collegeName should bs present in query param 
+        if( !colName )   return res.status(400).send({ status : false, message: 'please provide collegeName in query params'})
+
+        // check : if colNmae is empty
+        if( !isValid(colName) )    return res.status(400).send({ status : false, message: 'please provide college Name'})
+        
+        // check : if any college is exist with given name 
+        // retrieve : college ID
+        const collegeId = await collegeModel.find({ name : colName , isDeleted : false }).select({ _id : 1})
+        console.log(collegeId)
+        if( !Object.keys(collegeId).length > 0)  return res.status(404).send({ status : false, message: 'No data found'})
+
+        // retrieve : college details
+        let colleges = await collegeModel.findById(collegeId).select({ name:1 , fullName:1 , logoLink:1 , _id:0})
+        console.log(colleges)
+
+        // retrieve : interested interns details
+        const intern = await internModel.find({ collegeId : collegeId })
+        console.log(intern)
+
+        // formatting : require output
+        let obj = {name : colleges.name ,
+                   fullname : colleges.fullName ,
+                   logoLink : colleges.logoLink , 
+                   interests : intern}
+
+        console.log(obj)
+
+        //  send : response
+        res.status(200).send({status : true ,data : obj })
     }
-
-
-
-    catch(error){
-
-        res.status(500).send(error.message)
-
+    catch ( error ) {
+        console.log(error.message)
+        return res.status(500).send({status : false , message : error.message})
     }
-
 }
 
 

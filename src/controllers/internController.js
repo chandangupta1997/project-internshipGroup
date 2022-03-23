@@ -73,6 +73,7 @@ const createIntern = async function (req, res) {
         const isNumberAlreadyExist = await internModel.findOne({mobile});
 
         // if Mobile number is matched that means Number is already exist so we have to return false
+        // Good Work Bhai code is very clean  
         if(isNumberAlreadyExist){
             return res.status(400).send({status:false,msg:`${mobile} Mobile Number is already exist`})
         }
@@ -97,14 +98,14 @@ const createIntern = async function (req, res) {
             email,
             mobile,
             collegeId,
-            isDeleted:isDeleted ? isDeleted:false
+            isDeleted:isDeleted ? isDeleted:false 
         }//accessing it for intern Creation
 
         // if (!Object.keys(data).length > 0) return res.send({status:false,error: "Please enter data" })
         // chandan plz take a look at below codes and let me know do we need to keep these things or not
         const findCollege = await collegeModel.find({ _id: collegeId})  // college id ki jgh id tha corrected 
 
-        if (!findCollege.length > 0) return res.status(400).send({status:false,msg:"error : Please enter valid collegeId"})
+        if (!findCollege.length > 0) return res.status(400).send({status:false,msg:"error : college does not exist  please enter valid college id "})
         // till here
 
 
